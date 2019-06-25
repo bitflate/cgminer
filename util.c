@@ -1023,12 +1023,17 @@ void address_to_pubkeyhash(unsigned char *pkh, const char *addr)
 
 	memset(b58bin, 0, 25);
 	b58tobin(b58bin, addr);
-	pkh[0] = 0x76;
-	pkh[1] = 0xa9;
-	pkh[2] = 0x14;
-	cg_memcpy(&pkh[3], &b58bin[1], 20);
-	pkh[23] = 0x88;
-	pkh[24] = 0xac;
+	// pkh[0] = 0x76;
+	// pkh[1] = 0xa9;
+	// pkh[2] = 0x14;
+	// cg_memcpy(&pkh[3], &b58bin[1], 20);
+	// pkh[23] = 0x88;
+	// pkh[24] = 0xac;
+
+	pkh[0] = 0xa9;
+	pkh[1] = 0x14;
+	cg_memcpy(&pkh[2], &b58bin[1], 20);
+	pkh[22] = 0x87;
 }
 
 /*  For encoding nHeight into coinbase, return how many bytes were used */
