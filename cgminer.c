@@ -3321,7 +3321,7 @@ static bool gbt_solo_decode(struct pool *pool, json_t *res_val)
 
 	pool->nonce2 = 0;
 	pool->n2size = 4;
-	pool->coinbase_len = 41 + ofs + 4 + 1 + 8 + 1 + 25 + witness_txout_len + 4;
+	pool->coinbase_len = 41 + ofs + 4 + 1 + 8 + 1 + 23 + witness_txout_len + 4;
 	cg_wunlock(&pool->gbt_lock);
 
 	snprintf(header, 257, "%s%s%s%s%s%s%s",
@@ -7352,8 +7352,8 @@ static void __setup_gbt_solo(struct pool *pool)
 {
 	cg_wlock(&pool->gbt_lock);
 	cg_memcpy(pool->coinbase, scriptsig_header_bin, 41);
-	pool->coinbase[41 + pool->n1_len + 4 + 1 + 8] = 25;
-	cg_memcpy(pool->coinbase + 41 + pool->n1_len + 4 + 1 + 8 + 1, pool->script_pubkey, 25);
+	pool->coinbase[41 + pool->n1_len + 4 + 1 + 8] = 23;
+	cg_memcpy(pool->coinbase + 41 + pool->n1_len + 4 + 1 + 8 + 1, pool->script_pubkey, 23);
 	cg_wunlock(&pool->gbt_lock);
 }
 
@@ -7389,6 +7389,7 @@ static bool setup_gbt_solo(CURL *curl, struct pool *pool)
 	applog(LOG_NOTICE, "Solo mining to valid address: %s", opt_btc_address);
 	ret = true;
 	address_to_pubkeyhash(pool->script_pubkey, opt_btc_address);
+	applog(LOG_NOTICE, "script_pubkey: %s", bin2hex(pool->script_pubkey, 23));
 	hex2bin(scriptsig_header_bin, scriptsig_header, 41);
 	__setup_gbt_solo(pool);
 
