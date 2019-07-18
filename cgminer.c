@@ -7138,7 +7138,6 @@ static bool setup_gbt_solo(CURL *curl, struct pool *pool)
 	applog(LOG_NOTICE, "Solo mining to valid address: %s", opt_btc_address);
 	ret = true;
 	address_to_pubkeyhash(pool->script_pubkey, opt_btc_address);
-	applog(LOG_NOTICE, "script_pubkey: %s", bin2hex(pool->script_pubkey, 23));
 	hex2bin(scriptsig_header_bin, scriptsig_header, 41);
 	__setup_gbt_solo(pool);
 
